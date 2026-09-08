@@ -1,0 +1,46 @@
+# Exact versions on purpose: a build must be reproducible.
+# Verified against Python 3.14.6 on Windows 11.
+#
+# Nothing here is committed to the repository - install.bat creates .venv and
+# installs this file. Same idea as the frontend: package-lock.json is in git,
+# node_modules is not.
+#
+# Frontend toolchain versions live in web/package.json + web/package-lock.json
+# (Node 20.20.2, npm 10.8.2).
+
+# ── what the application uses directly ──────────────────────────────────
+telethon==1.44.0
+qrcode==8.2
+
+# Telethon's crypto helpers - pinned so a transitive bump cannot break auth.
+pyaes==1.6.1
+rsa==4.9.1
+
+# Two different packages, confusingly named. Both are needed:
+#   python-socks provides `python_socks` - Telethon's async proxy transport;
+#   PySocks     provides `socks`         - the constants app/models/profile.py
+#                                          builds Telethon's proxy tuple from.
+# Without PySocks the build succeeds and every proxied account then fails to
+# connect, so it is listed explicitly rather than left to chance.
+python-socks[asyncio]==3.0.0
+PySocks==1.7.1
+
+# ── build and test only ─────────────────────────────────────────────────
+pyinstaller==6.21.0
+pytest==9.1.1
+
+# ── pulled in by the above ──────────────────────────────────────────────
+# Pinned as well, or a build months from now is a different build. The one
+# that matters most is pyinstaller-hooks-contrib: it decides what PyInstaller
+# collects, so an unpinned bump changes the contents of the EXE.
+altgraph==0.17.5
+colorama==0.4.6
+iniconfig==2.3.0
+packaging==26.3
+pefile==2024.8.26
+pluggy==1.6.0
+pyasn1==0.6.4
+Pygments==2.21.0
+pyinstaller-hooks-contrib==2026.7
+pywin32-ctypes==0.2.3
+setuptools==84.0.0
