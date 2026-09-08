@@ -1,0 +1,42 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+
+# PyInstaller
+build/
+dist/
+*.spec
+# ...except ours: it is written by hand and the build needs it
+!TelegramCenter.spec
+
+# Frontend. node_modules is restored by "npm ci" from the committed
+# package-lock.json, and web/dist is rebuilt by "npm run build" - both are
+# derived from what is already in the repository, so neither belongs here.
+node_modules/
+web/dist/
+npm-debug.log*
+
+# Telegram sessions are live credentials: whoever holds the file holds the
+# account. They belong in %APPDATA%\TelegramCenter and must never be
+# committed, wherever a stray one turns up.
+*.session
+*.session-journal
+
+# Local secrets
+.env
+.env.*
+
+# Editors and Windows
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
